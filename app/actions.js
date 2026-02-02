@@ -7,6 +7,24 @@ import { generateCode } from '@/utils/base62';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.site';
 
 /**
+ * 한국 시간(KST)으로 YYYY-MM-DD HH:mm:ss 형식 반환
+ */
+function getKoreanDateTime() {
+  const now = new Date();
+  const kstOffset = 9 * 60 * 60 * 1000; // UTC+9
+  const kstDate = new Date(now.getTime() + kstOffset);
+
+  const year = kstDate.getUTCFullYear();
+  const month = String(kstDate.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(kstDate.getUTCDate()).padStart(2, '0');
+  const hours = String(kstDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(kstDate.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(kstDate.getUTCSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+/**
  * URL 유효성 검사
  */
 function isValidUrl(string) {
@@ -71,6 +89,7 @@ export async function shortenUrl(formData) {
       data: {
         originalUrl,
         shortCode,
+        createdAt: getKoreanDateTime(),
       },
     });
 
