@@ -1,0 +1,96 @@
+/* app/admin/login/page.module.css */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 0.3em;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+  letter-spacing: normal;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.submitButton {
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: var(--accent-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #0ea472;
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  font-size: 0.85rem;
+  text-align: center;
+}
