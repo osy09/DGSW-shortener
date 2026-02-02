@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    container_name: url-shortener
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=file:/app/data/url.db
+      - NEXT_PUBLIC_BASE_URL=https://dgsw.site
+    volumes:
+      - ./data:/app/data
+    networks:
+      - url-network
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token eyJhIjoiMzI1MDAzOTEzOGQ3YmM4ZTNkNWRlMzI5NjAyNjgzNDYiLCJ0IjoiZjhhNjExN2MtYjM2NC00NjJkLTg0M2UtODUxMDMwMDBmYjQ1IiwicyI6Ik5UTmlZVGhpWlRVdE1UZG1NUzAwT0dJeExXRXdNMk10TXpreU16bGhNMkpqWVdGbSJ9
+    networks:
+      - url-network
+    depends_on:
+      - app
+
+networks:
+  url-network:
+    driver: bridge

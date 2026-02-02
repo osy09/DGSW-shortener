@@ -1,0 +1,285 @@
+/* app/page.module.css */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+}
+
+/* Top Left Logo */
+.topLogo {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+}
+
+.topLogoImage {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Card - Matte Style */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+/* Submit Button - Matte Solid */
+.submitButton {
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: var(--accent-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #0ea472;
+}
+
+.submitButton:active:not(:disabled) {
+  opacity: 0.9;
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Result Section */
+.result {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resultLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.resultContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Short URL Display */
+.urlDisplay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.shortUrl {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--accent-primary);
+  word-break: break-all;
+}
+
+.copyButton {
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--bg-tertiary);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: background var(--transition-fast);
+}
+
+.copyButton:hover {
+  background: var(--accent-primary);
+  color: #ffffff;
+}
+
+.copied {
+  background: var(--success);
+  color: #ffffff;
+}
+
+/* QR Code Section */
+.qrSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.qrLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.qrWrapper {
+  background: #ffffff;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrDownload {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.qrDownload:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Original URL Info */
+.originalUrl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  word-break: break-all;
+  text-align: center;
+}
+
+/* Error Message */
+.error {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.footer a {
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.footer a:hover {
+  color: var(--accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .topLogoImage {
+    height: 40px;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .urlDisplay {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .copyButton {
+    text-align: center;
+  }
+}

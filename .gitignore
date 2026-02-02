@@ -1,0 +1,55 @@
+# Gitignore for Next.js project with Prisma and Docker
+
+# Node.js
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+.env*.local
+.env
+.DS_Store
+
+# Next.js
+.next/
+out/
+
+# Prisma
+/prisma/migrations/
+*.db
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+.env.development.local
+.env.production.local
+.env.test.local
+.env.local
+
+# Build artifacts
+build/
+dist/
+
+# Logs
+logs/
+*.log
+
+# Editor directories and files
+.vscode/
+.idea/
+.project
+.classpath
+.c9/
+.settings/
+*.tmproj
+*.esproj
+.history/
+.pnp.*
+
+# Misc
+*.swp
+.DS_Store
+*.sublime-project
+*.sublime-workspace
