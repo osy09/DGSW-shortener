@@ -12,25 +12,34 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
-  // 로그인 페이지는 통과
-  if (pathname === '/admin/login') {
-    return NextResponse.next();
-  }
-
   // JWT 토큰 확인
   const token = request.cookies.get(COOKIE_NAME)?.value;
+  const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
-  if (!token) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+  let isAuthenticated = false;
+  if (token) {
+    try {
+      await jwtVerify(token, JWT_SECRET);
+      isAuthenticated = true;
+    } catch {
+      isAuthenticated = false;
+    }
   }
 
-  try {
-    const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
-    await jwtVerify(token, JWT_SECRET);
+  // 로그인 페이지: 이미 인증되어 있으면 /admin으로 리다이렉트
+  if (pathname === '/admin/login') {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL('/admin', request.url));
+    }
     return NextResponse.next();
-  } catch {
+  }
+
+  // 그 외 admin 페이지: 인증 필요
+  if (!isAuthenticated) {
     return NextResponse.redirect(new URL('/admin/login', request.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
