@@ -4,8 +4,10 @@ services:
     container_name: url-shortener
     restart: unless-stopped
     environment:
-      - DATABASE_URL=file:/app/data/url.db
-      - NEXT_PUBLIC_BASE_URL=https://dgsw.site
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - TOTP_SECRET=${TOTP_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
     volumes:
       - ./data:/app/data
     networks:
@@ -15,7 +17,7 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared-tunnel
     restart: unless-stopped
-    command: tunnel --no-autoupdate run --token eyJhIjoiMzI1MDAzOTEzOGQ3YmM4ZTNkNWRlMzI5NjAyNjgzNDYiLCJ0IjoiZjhhNjExN2MtYjM2NC00NjJkLTg0M2UtODUxMDMwMDBmYjQ1IiwicyI6Ik5UTmlZVGhpWlRVdE1UZG1NUzAwT0dJeExXRXdNMk10TXpreU16bGhNMkpqWVdGbSJ9
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
       - url-network
     depends_on:

@@ -5,8 +5,15 @@ import { prisma } from '@/lib/prisma';
 import { verifyTOTP } from '@/lib/totp';
 import { createSession, verifySession, deleteSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+import crypto from 'crypto'; // crypto 모듈 추가
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.site';
+
+// Rate Limiting을 위한 인메모리 저장소
+const loginAttempts = new Map();
+const RATE_LIMIT_ATTEMPTS = 5; // 최대 시도 횟수
+const RATE_LIMIT_TIMEFRAME = 10 * 60 * 1000; // 10분
 
 // 한국 시간 포맷
 function getKoreanDateTime() {
@@ -39,12 +46,14 @@ function isValidShortCode(code) {
   return /^[a-zA-Z0-9]{1,20}$/.test(code);
 }
 
-// 랜덤 코드 생성
+// 랜덤 코드 생성 (암호학적으로 안전하게 변경)
 function generateCode() {
   const CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const codeLength = 5;
+  const randomBytes = crypto.randomBytes(codeLength);
   let result = '';
-  for (let i = 0; i < 5; i++) {
-    result += CHARSET[Math.floor(Math.random() * CHARSET.length)];
+  for (let i = 0; i < codeLength; i++) {
+    result += CHARSET[randomBytes[i] % CHARSET.length];
   }
   return result;
 }
@@ -53,6 +62,19 @@ function generateCode() {
  * OTP 검증 및 세션 생성
  */
 export async function verifyOtp(formData) {
+  // IP 주소 확인
+  const headersList = await headers();
+  const ip = headersList.get('x-forwarded-for') || '127.0.0.1';
+
+  // Rate Limiter: 시도 횟수 확인
+  const now = Date.now();
+  const attempts = loginAttempts.get(ip) || [];
+  const recentAttempts = attempts.filter(time => now - time < RATE_LIMIT_TIMEFRAME);
+
+  if (recentAttempts.length >= RATE_LIMIT_ATTEMPTS) {
+    return { error: '로그인 시도 횟수가 너무 많습니다. 10분 후에 다시 시도해 주세요.' };
+  }
+
   const pin = formData.get('pin')?.toString().trim();
 
   if (!pin || pin.length !== 6) {
@@ -63,8 +85,13 @@ export async function verifyOtp(formData) {
     const isValid = verifyTOTP(pin);
 
     if (!isValid) {
+      // 로그인 실패: 시도 기록
+      loginAttempts.set(ip, [...recentAttempts, now]);
       return { error: '잘못된 PIN입니다. 다시 시도해 주세요.' };
     }
+
+    // 로그인 성공: 시도 기록 초기화
+    loginAttempts.delete(ip);
 
     await createSession();
   } catch (error) {
