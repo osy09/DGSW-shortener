@@ -8,7 +8,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-store/
-.env*.local
 .env
 .DS_Store
 
@@ -23,10 +22,6 @@ out/
 # Docker
 .dockerignore
 docker-compose.override.yml
-.env.development.local
-.env.production.local
-.env.test.local
-.env.local
 
 # Build artifacts
 build/

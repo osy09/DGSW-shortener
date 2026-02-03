@@ -38,12 +38,13 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@libsql ./node_modules/@libsql
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/sharp ./node_modules/sharp
 COPY --chown=nextjs:nodejs start.sh ./start.sh
 
-# 데이터 디렉토리 생성 및 권한 설정
-RUN mkdir -p /app/data && chown -R nextjs:nodejs /app
+# 권한 설정
+RUN chown -R nextjs:nodejs /app
 RUN chmod +x /app/start.sh
 
 USER nextjs
