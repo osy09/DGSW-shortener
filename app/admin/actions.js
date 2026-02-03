@@ -1,7 +1,7 @@
 // app/admin/actions.js
 'use server';
 
-import { prisma } from '@/lib/prisma';
+import { getDbClient } from '@/lib/prisma';
 import { verifyTOTP } from '@/lib/totp';
 import { createSession, verifySession, deleteSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
@@ -94,8 +94,7 @@ export async function verifyOtp(formData) {
     loginAttempts.delete(ip);
 
     await createSession();
-  } catch (error) {
-    console.error('OTP 검증 오류:', error);
+  } catch {
     return { error: '인증 중 오류가 발생했습니다.' };
   }
 
@@ -120,7 +119,7 @@ export async function getAllLinks() {
   }
 
   try {
-    const links = await prisma.link.findMany({
+    const links = await getDbClient().link.findMany({
       orderBy: { id: 'desc' },
     });
 
@@ -130,8 +129,7 @@ export async function getAllLinks() {
         shortUrl: `${BASE_URL}/${link.shortCode}`,
       })),
     };
-  } catch (error) {
-    console.error('링크 조회 오류:', error);
+  } catch {
     return { error: '링크 조회 중 오류가 발생했습니다.' };
   }
 }
@@ -163,7 +161,7 @@ export async function createCustomLink(formData) {
   try {
     // 커스텀 코드 중복 확인
     if (customCode) {
-      const existing = await prisma.link.findUnique({
+      const existing = await getDbClient().link.findUnique({
         where: { shortCode: customCode },
       });
 
@@ -175,7 +173,7 @@ export async function createCustomLink(formData) {
     // 코드 결정 (커스텀 또는 랜덤)
     const shortCode = customCode || generateCode();
 
-    const link = await prisma.link.create({
+    const link = await getDbClient().link.create({
       data: {
         originalUrl,
         shortCode,
@@ -190,8 +188,7 @@ export async function createCustomLink(formData) {
         shortUrl: `${BASE_URL}/${link.shortCode}`,
       },
     };
-  } catch (error) {
-    console.error('링크 생성 오류:', error);
+  } catch {
     return { error: '링크 생성 중 오류가 발생했습니다.' };
   }
 }
@@ -224,7 +221,7 @@ export async function updateLink(formData) {
   try {
     // shortCode 중복 확인 (다른 링크에서 사용 중인지)
     if (shortCode) {
-      const existing = await prisma.link.findFirst({
+      const existing = await getDbClient().link.findFirst({
         where: {
           shortCode,
           NOT: { id },
@@ -240,14 +237,13 @@ export async function updateLink(formData) {
     if (originalUrl) updateData.originalUrl = originalUrl;
     if (shortCode) updateData.shortCode = shortCode;
 
-    await prisma.link.update({
+    await getDbClient().link.update({
       where: { id },
       data: updateData,
     });
 
     return { success: true };
-  } catch (error) {
-    console.error('링크 수정 오류:', error);
+  } catch {
     return { error: '링크 수정 중 오류가 발생했습니다.' };
   }
 }
@@ -268,13 +264,12 @@ export async function deleteLink(formData) {
   }
 
   try {
-    await prisma.link.delete({
+    await getDbClient().link.delete({
       where: { id },
     });
 
     return { success: true };
-  } catch (error) {
-    console.error('링크 삭제 오류:', error);
+  } catch {
     return { error: '링크 삭제 중 오류가 발생했습니다.' };
   }
 }

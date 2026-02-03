@@ -1,7 +1,13 @@
 #!/bin/sh
 
-# Turso 원격 DB를 사용하므로 로컬 데이터 디렉토리 불필요
-# Prisma 마이그레이션은 Turso CLI로 별도 실행
+# 환경변수를 파일로 저장 (Turbopack 빌드타임 치환 회피)
+cat > /app/.env << EOF
+TURSO_DATABASE_URL=$TURSO_DATABASE_URL
+TURSO_AUTH_TOKEN=$TURSO_AUTH_TOKEN
+ADMIN_SECRET=$ADMIN_SECRET
+TOTP_SECRET=$TOTP_SECRET
+JWT_SECRET=$JWT_SECRET
+EOF
 
 # 앱 실행 (0.0.0.0에 바인딩하여 외부 접근 허용)
 HOSTNAME=0.0.0.0 node server.js

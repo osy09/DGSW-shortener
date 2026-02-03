@@ -1,7 +1,7 @@
 // app/actions.js
 'use server';
 
-import { prisma } from '@/lib/prisma';
+import { getDbClient } from '@/lib/prisma';
 import { generateCode } from '@/utils/base62';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.site';
@@ -53,7 +53,7 @@ export async function shortenUrl(formData) {
 
   try {
     // 이미 존재하는 URL인지 확인
-    const existing = await prisma.link.findFirst({
+    const existing = await getDbClient().link.findFirst({
       where: { originalUrl },
     });
 
@@ -73,7 +73,7 @@ export async function shortenUrl(formData) {
 
     while (attempts < maxAttempts) {
       shortCode = generateCode();
-      const exists = await prisma.link.findUnique({
+      const exists = await getDbClient().link.findUnique({
         where: { shortCode },
       });
       if (!exists) break;
@@ -85,7 +85,7 @@ export async function shortenUrl(formData) {
     }
 
     // 새 링크 생성
-    await prisma.link.create({
+    await getDbClient().link.create({
       data: {
         originalUrl,
         shortCode,
@@ -99,8 +99,7 @@ export async function shortenUrl(formData) {
       shortCode,
       originalUrl,
     };
-  } catch (error) {
-    console.error('URL 단축 오류:', error);
+  } catch {
     return { error: 'URL 단축 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.' };
   }
 }
