@@ -4,7 +4,7 @@ import { jwtVerify } from 'jose';
 
 const COOKIE_NAME = 'admin_session';
 
-export async function middleware(request) {
+export async function proxy(request) {
   const { pathname } = request.nextUrl;
 
   // Admin 경로가 아니면 통과
