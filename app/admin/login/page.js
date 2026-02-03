@@ -21,7 +21,7 @@ export default function AdminLogin() {
       if (result?.error) {
         setError(result.error);
       }
-    } catch (err) {
+    } catch {
       // redirect 시 에러가 발생할 수 있음
     } finally {
       setIsLoading(false);
