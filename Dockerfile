@@ -15,6 +15,7 @@ COPY . .
 # 빌드 시 더미 환경변수 (Turbopack 치환 방지)
 ENV TURSO_DATABASE_URL=https://placeholder.turso.io
 ENV TURSO_AUTH_TOKEN=placeholder_token
+ENV JWT_SECRET=placeholder_jwt_secret
 
 RUN npm run build
 
