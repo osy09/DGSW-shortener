@@ -39,7 +39,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@libsql ./node_modul
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/sharp ./node_modules/sharp
 COPY --chown=nextjs:nodejs start.sh ./start.sh
 
-RUN chmod +x /app/start.sh
+RUN sed -i 's/\r$//' /app/start.sh && chmod +x /app/start.sh
 
 USER nextjs
 EXPOSE 3000
