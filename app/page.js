@@ -52,7 +52,7 @@ export default function Home() {
       </div>
 
       <header className={styles.header}>
-        <h1 className={styles.logo}>DGSW.site</h1>
+        <h1 className={styles.logo}>DGSW.kr</h1>
         <p className={styles.subtitle}>긴 URL을 짧고 깔끔하게</p>
       </header>
 

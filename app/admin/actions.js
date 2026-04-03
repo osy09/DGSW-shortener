@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import crypto from 'crypto'; // crypto 모듈 추가
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.site';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.kr';
 
 // Rate Limiting을 위한 인메모리 저장소
 const loginAttempts = new Map();

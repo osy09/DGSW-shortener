@@ -4,7 +4,7 @@
 import { getDbClient } from '@/lib/prisma';
 import { generateCode } from '@/utils/base62';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.site';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.kr';
 
 /**
  * 한국 시간(KST)으로 YYYY-MM-DD HH:mm:ss 형식 반환

@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.site';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://dgsw.kr';
 
 export async function GET(request, { params }) {
   const { shortCode } = await params;
