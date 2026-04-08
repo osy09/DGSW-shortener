@@ -16,4 +16,5 @@ model Link {
   clicks      Int    @default(0)
 
   @@index([shortCode])
+  @@index([originalUrl])
 }

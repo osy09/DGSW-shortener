@@ -1,4 +1,3 @@
-// app/admin/login/page.js
 'use client';
 
 import { useState } from 'react';
@@ -14,15 +13,11 @@ export default function AdminLogin() {
     setError('');
     setIsLoading(true);
 
-    const formData = new FormData(e.target);
-
     try {
-      const result = await verifyOtp(formData);
-      if (result?.error) {
-        setError(result.error);
-      }
+      const result = await verifyOtp(new FormData(e.target));
+      if (result?.error) setError(result.error);
     } catch {
-      // redirect 시 에러가 발생할 수 있음
+      // redirect 시 에러 발생 가능
     } finally {
       setIsLoading(false);
     }
@@ -49,11 +44,7 @@ export default function AdminLogin() {
             autoFocus
             required
           />
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={isLoading}
-          >
+          <button type="submit" className={styles.submitButton} disabled={isLoading}>
             {isLoading ? '확인 중...' : '로그인'}
           </button>
         </form>
